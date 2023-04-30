@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Página Inicial</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.827.0.min.js"></script>
+    <style>
+        .card-header{
+          font-size: 24px;
+		      font-weight: bold;
+		      text-align: center;
+		      background-color: #000000;
+		      color: #ffffff;
+        }
+        .form-group label {
+          font-weight: bold;
+	    }
+	    .btn-primary {
+            background-color: #007bff;
+		    border-color: #007bff;
+            display: block;
+			margin: 0 auto;
+	    }
+	    .btn-primary:hover {
+		    background-color: #0069d9;
+		    border-color: #0062cc;
+	    }
+        .btn-secundary {
+            display: block;
+			margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <p></p>
+    <p><button class="btn-primary" onclick="invokeLambda()">Chamar Função Lambda</button></p>
+    <div id="result"></div>
+
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1349.0.min.js"></script>
+    <script>
+      function invokeLambda() {
+        AWS.config.update({
+          accessKeyId: 'access_key', // substitua pela sua access key
+          secretAccessKey: 'secret_key', // substitua pela sua secret key
+          region: 'us-west-2', // substitua pela região do seu LocalStack
+          endpoint: 'http://localhost:4566/' // substitua pelo endpoint do seu LocalStack
+        });
+
+        const lambda = new AWS.Lambda();
+	var params = {
+		  FunctionName: 'Myfunction'
+	};
+        lambda.invoke(params, function(err, data) {
+          if (err) {
+            console.log(err, err.stack);
+            document.getElementById("result").innerHTML = "Erro ao chamar a função lambda.";
+          } else {
+            const resultado = document.getElementById('result');
+            resultado.innerHTML = data.Payload;
+          }
+        });
+      }
+    </script>    
+</body>
+
+<footer class="footer text-center">
+    <div class="container">
+      <span class="text-muted">Desenvolvido por Anna Julia, Julio, Renan, Victor e Pazin</a></span>
+    </div>
+</footer>  
+</html>
